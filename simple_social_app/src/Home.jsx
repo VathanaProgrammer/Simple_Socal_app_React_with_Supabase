@@ -35,7 +35,7 @@ function Home() {
             height="38"
             style={{color: "#4d4d4d"}}
           ></iconify-icon>
-          <h2 className="text-[20px] font-semibold text-[#373737]">Mew Mew</h2>
+          <h2 className="text-[20px] font-semibold text-[#373737]">Mew Mewfdfdf</h2>
           <img className="w-[50px] h-[50px] rounded-full" src="https://i.pinimg.com/736x/8b/65/74/8b657489fa35658b8a660e843261b433.jpg" alt="" />
         </div>
       </header>
