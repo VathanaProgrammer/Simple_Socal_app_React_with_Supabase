@@ -24,7 +24,7 @@ export async function signUpWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: "http://localhost:5173/call-back" // after login, come back here
+      redirectTo: "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back" // after login, come back here
     }
   });
 
@@ -40,7 +40,7 @@ export async function signUpWithFacebook() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "facebook",
     options: {
-      redirectTo: "http://localhost:5173/call-back"
+      redirectTo: "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back"
     }
   });
 
