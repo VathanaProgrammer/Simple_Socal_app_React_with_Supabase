@@ -72,32 +72,32 @@ function SignIn() {
                     Remember me
                   </label>
                 </div>
-                <div className="flex items-center w-full my-2">
-                  <hr className="flex-grow border-gray-300" />
-                  <p className="mx-2 text-gray-500">OR</p>
-                  <hr className="flex-grow border-gray-300" />
-                </div>
+                {/* <div className="flex items-center w-full my-2"> */}
+                  {/* <hr className="flex-grow border-gray-300" /> */}
+                  {/* <p className="mx-2 text-gray-500">OR</p> */}
+                  {/* <hr className="flex-grow border-gray-300" /> */}
+                {/* </div> */}
 
-                <div className="flex w-full justify-between items-center gap-2">
-                  <button className="w-full flex items-center h-[37px] border border-gray-400 px-3 text-[#2C2C2C] text-[15px] font-medium rounded-[10px]">
-                    <iconify-icon
-                      className="pe-1"
-                      icon="flat-color-icons:google"
-                      width="28"
-                      height="28"
-                    ></iconify-icon>
-                    Sign In with Google
-                  </button>
-                  <button className="w-full h-[37px] flex items-center border border-gray-400 px-3 text-[#2C2C2C] text-[15px] font-medium rounded-[10px]">
-                    <iconify-icon
-                      className="pe-1"
-                      icon="logos:facebook"
-                      width="28"
-                      height="28"
-                    ></iconify-icon>
-                    Sign In with Facebook
-                  </button>
-                </div>
+                {/* <div className="flex w-full justify-between items-center gap-2"> */}
+                  {/* <button className="w-full flex items-center h-[37px] border border-gray-400 px-3 text-[#2C2C2C] text-[15px] font-medium rounded-[10px]"> */}
+                    {/* <iconify-icon */}
+                      {/* className="pe-1" */}
+                      {/* icon="flat-color-icons:google" */}
+                      {/* width="28" */}
+                      {/* height="28" */}
+                    {/* ></iconify-icon> */}
+                    {/* Sign In with Google */}
+                  {/* </button> */}
+                  {/* <button className="w-full h-[37px] flex items-center border border-gray-400 px-3 text-[#2C2C2C] text-[15px] font-medium rounded-[10px]"> */}
+                    {/* <iconify-icon */}
+                      {/* className="pe-1" */}
+                      {/* icon="logos:facebook" */}
+                      {/* width="28" */}
+                      {/* height="28" */}
+                    {/* ></iconify-icon> */}
+                    {/* Sign In with Facebook */}
+                  {/* </button> */}
+                {/* </div> */}
                 <div className="w-full flex flex-col gap-4">
                   <button
                     type="submit"

@@ -16,7 +16,7 @@ export async function signUpWithEmail(email, password, username) {
 
   // also save username in a separate table if needed
   if (data?.user) await saveUserProfile(data.user.id, username);
-
+  
   return { success: true, data };
 }
 
@@ -24,7 +24,7 @@ export async function signUpWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back" // after login, come back here
+      redirectTo: "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back/" // after login, come back here
     }
   });
 
