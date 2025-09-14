@@ -1,12 +1,12 @@
-import { supabase } from "./SupabaseClient";
+import { supabase } from "./supabaseClient";
 
 export async function signUpWithEmail(email, password, username) {
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { username } // store username inside user metadata
-    }
+      data: { username }, // store username inside user metadata
+    },
   });
 
   if (error) {
@@ -16,16 +16,25 @@ export async function signUpWithEmail(email, password, username) {
 
   // also save username in a separate table if needed
   if (data?.user) await saveUserProfile(data.user.id, username);
-  
-  return { success: true, data };
+
+  // 2. Immediately sign in
+  const { data: loginData, error: loginError } =
+    await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
+  if (loginError) throw loginError;
+
+  return { success: true, data: loginData };
 }
 
 export async function signUpWithGoogle() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back/" // after login, come back here
-    }
+      redirectTo:
+        "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back/", // after login, come back here
+    },
   });
 
   if (error) {
@@ -40,8 +49,9 @@ export async function signUpWithFacebook() {
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "facebook",
     options: {
-      redirectTo: "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back"
-    }
+      redirectTo:
+        "https://simple-socal-app-react-with-supabas-mu.vercel.app/call-back",
+    },
   });
 
   if (error) {

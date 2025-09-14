@@ -1,15 +1,59 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { supabase } from "./supabaseClient"; // your Supabase client
+
 function SignIn() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     document.title = "Sign In | Cat";
   }, []);
-  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Supabase login
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        if (error.message.includes("Email not confirmed")) {
+          // Call Edge Function to resend confirmation
+          await fetch("https://zajeidltrkiobkkkrius.supabase.co/resendConfirmation", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email }),
+          });
+
+          alert("Email not confirmed. A new confirmation link has been sent!");
+        } else {
+          alert(error.message);
+        }
+      } else {
+        // Login successful
+        // Success -> navigate to home or profile
+        navigate("/"); // you can change to "/profile" if you want
+        console.log("User logged in:", data.user);
+      }
+    } catch (err) {
+      alert("Error logging in: " + err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen w-full flex justify-center items-center mx-auto bg-[#D2EEF5]">
       <div className="w-[80%] h-[700px] flex flex-col justify-between rounded-[20px] border-white border-2 bg-transparent p-2">
         <form
-          action=""
+          onSubmit={handleLogin} // ✅ use handleLogin
           className="bg-white h-full rounded-[20px] flex flex-col p-5 justify-start"
         >
           <div className="w-full h-full flex justify-center items-center">
@@ -36,83 +80,65 @@ function SignIn() {
                   </span>{" "}
                   and join the community!
                 </p>
+
+                {/* Email input */}
                 <div className="w-full mt-4 flex flex-col gap-4">
                   <label className="text-[#2C2C2C] text-[15px] font-medium">
                     Email
                   </label>
                   <input
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     className="h-[37px] -mt-2 w-full px-4 text-[#2C2C2C] border border-gray-400 rounded-[10px] focus:ring-1 focus:ring-gray-400 text-[15px]"
                     placeholder="Enter your email"
+                    required
                   />
                 </div>
+
+                {/* Password input */}
                 <div className="w-full mt-2 flex flex-col gap-4">
                   <label className="text-[#2C2C2C] text-[15px] font-medium">
                     Password
                   </label>
                   <input
                     type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                     className="h-[37px] -mt-2 w-full px-4 text-[#2C2C2C] border border-gray-400 rounded-[10px] focus:ring-1 focus:ring-gray-400 text-[15px]"
                     placeholder="Enter your password"
+                    required
                   />
                 </div>
+
+                {/* Remember me checkbox */}
                 <div className="flex items-start w-full mt-2">
                   <div className="flex items-center h-5">
                     <input
                       id="terms"
                       type="checkbox"
-                      value=""
-                      className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                      required
+                      className="w-4 h-4 border border-gray-300 rounded-sm"
                     />
                   </div>
-                  <label
-                    className="ms-2 text-sm font-medium text-[#2C2C2C]"
-                  >
+                  <label className="ms-2 text-sm font-medium text-[#2C2C2C]">
                     Remember me
                   </label>
                 </div>
-                {/* <div className="flex items-center w-full my-2"> */}
-                  {/* <hr className="flex-grow border-gray-300" /> */}
-                  {/* <p className="mx-2 text-gray-500">OR</p> */}
-                  {/* <hr className="flex-grow border-gray-300" /> */}
-                {/* </div> */}
 
-                {/* <div className="flex w-full justify-between items-center gap-2"> */}
-                  {/* <button className="w-full flex items-center h-[37px] border border-gray-400 px-3 text-[#2C2C2C] text-[15px] font-medium rounded-[10px]"> */}
-                    {/* <iconify-icon */}
-                      {/* className="pe-1" */}
-                      {/* icon="flat-color-icons:google" */}
-                      {/* width="28" */}
-                      {/* height="28" */}
-                    {/* ></iconify-icon> */}
-                    {/* Sign In with Google */}
-                  {/* </button> */}
-                  {/* <button className="w-full h-[37px] flex items-center border border-gray-400 px-3 text-[#2C2C2C] text-[15px] font-medium rounded-[10px]"> */}
-                    {/* <iconify-icon */}
-                      {/* className="pe-1" */}
-                      {/* icon="logos:facebook" */}
-                      {/* width="28" */}
-                      {/* height="28" */}
-                    {/* ></iconify-icon> */}
-                    {/* Sign In with Facebook */}
-                  {/* </button> */}
-                {/* </div> */}
+                {/* Sign in button */}
                 <div className="w-full flex flex-col gap-4">
                   <button
                     type="submit"
-                    className="h-[37px] w-full px-4 text-white bg-[#4153EF] mt-4 rounded-[10px] focus:ring-1 focus:ring-gray-400 text-[15px] font-semibold"
+                    disabled={loading}
+                    className="h-[37px] w-full px-4 text-white bg-[#4153EF] mt-4 rounded-[10px] focus:ring-1 focus:ring-gray-400 text-[15px] font-semibold disabled:opacity-50"
                   >
-                    Sign In
+                    {loading ? "Signing in..." : "Sign In"}
                   </button>
                 </div>
               </div>
             </div>
-            <div className="w-1/2 h-full bg-[#4153EF] rounded-[20px]">
-              <header>
-                <h1 className="text-[36px] font-semibold text-[#2C2C2C]"></h1>
-              </header>
-            </div>
+
+            <div className="w-1/2 h-full bg-[#4153EF] rounded-[20px]"></div>
           </div>
         </form>
       </div>

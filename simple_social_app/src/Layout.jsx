@@ -1,18 +1,28 @@
+// src/Layout.jsx
 import { useModal } from "./useModel";
 import CreatePost from "./CreatePost";
 import CreateStory from "./CreateStory";
 import { useNavigate } from "react-router-dom";
+import { supabase } from "./supabaseClient";
+import { useUser } from "./useUser";
+import { defaultProfileUrl } from "./defaultImage";
 
 function Layout({ children }) {
   const navigate = useNavigate();
-
   const { showPost, setShowPost, showCreateStory, setShowCreateStory } =
     useModal();
+
+  const { user } = useUser(); // ✅ get global user from context
+  // Logout function
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    navigate("/sign-in"); // redirect to login page after logout
+  };
 
   return (
     <div className="w-full max-w-[1450px] mx-auto">
       {/* Header */}
-      <header className="flex justify-between pt-2">
+      <header className="flex justify-between pt-2 items-center">
         <div className="flex justify-start items-center gap-4">
           <iconify-icon
             onClick={() => navigate("/")}
@@ -43,16 +53,44 @@ function Layout({ children }) {
             icon="bi:file-earmark-post"
             width="38"
             height="38"
-            onClick={() => setShowPost(true)} // ✅ Use prop from parent
+            onClick={() => setShowPost(true)}
             style={{ color: "#4d4d4d" }}
           ></iconify-icon>
-          <h2 className="text-[20px] font-semibold text-[#373737]">Mew Mew</h2>
-          <img
-            onClick={() => navigate("/profile")}
-            className="w-[50px] h-[50px] rounded-full"
-            src="https://i.pinimg.com/736x/8b/65/74/8b657489fa35658b8a660e843261b433.jpg"
-            alt=""
-          />
+
+          {user ? (
+            <>
+              <span className="text-[20px] font-semibold text-[#373737]">
+                {user.user_metadata?.username || "Unknown User"}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 rounded-lg bg-red-500 text-white hover:bg-red-600 transition"
+              >
+                Logout
+              </button>
+              <img
+                onClick={() => navigate("/profile")}
+                className="w-[50px] h-[50px] rounded-full cursor-pointer"
+                src={user?.avatar_url || defaultProfileUrl}
+                alt="User avatar"
+              />
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => navigate("/sign-in")}
+                className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+              >
+                Sign In
+              </button>
+              <button
+                onClick={() => navigate("/sign-up")}
+                className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition"
+              >
+                Sign Up
+              </button>
+            </>
+          )}
         </div>
       </header>
 
@@ -62,7 +100,6 @@ function Layout({ children }) {
           <CreatePost onClose={() => setShowPost(false)} />
         </div>
       )}
-
       {showCreateStory && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
           <CreateStory onClose={() => setShowCreateStory(false)} />

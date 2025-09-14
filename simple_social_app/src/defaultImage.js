@@ -1,0 +1,1 @@
+export const defaultProfileUrl = "https://i.pinimg.com/736x/87/b1/0e/87b10e5be8cca84b7b1ef91c2e7eb4ca.jpg";

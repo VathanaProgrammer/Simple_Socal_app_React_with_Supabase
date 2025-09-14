@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { supabase } from "./SupabaseClient";
+import { supabase } from "./supabaseClient";
 import { saveUserProfile } from "./auth";
 
 function CallBack() {

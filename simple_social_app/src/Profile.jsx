@@ -1,11 +1,17 @@
 import Layout from "./Layout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import UserStories from "./UserStories";
 import UserPost from "./UserPost";
+import { useUser } from "./useUser";
+import { defaultProfileUrl } from "./defaultImage";
 
 function Profile() {
+  const { user } = useUser(); // access user info globally
   const [activeTap, setActiveTap] = useState("posts");
 
+  useEffect(() => {
+    document.title = "Cat | Profile ";
+  }, []);
   return (
     <Layout>
       {/* FIX: Give fixed height and flex-col */}
@@ -22,16 +28,18 @@ function Profile() {
           <div className="relative h-[128px] w-[128px] cursor-pointer">
             <img
               className="w-full h-full object-cover rounded-full"
-              src={`https://i.pinimg.com/736x/01/25/c6/0125c6e9029cec950ede8376227feb5d.jpg`}
+              src={user?.avatar_url || defaultProfileUrl}
               alt=""
             />
             <span className="absolute bottom-0 right-0 w-4 h-4 bg-[#38CC0B] border-2 border-white rounded-full z-30"></span>
           </div>
 
           <div className="flex flex-col items-start">
-            <h1 className="text-[32px] text-[#0051FF] font-semibold">Mew Mew</h1>
+            <h1 className="text-[32px] text-[#0051FF] font-semibold">
+              {user?.username}
+            </h1>
             <p className="text-[15px] text-[#2C2C2C] font-normal">
-              Keep going don't stop!
+              {user?.bio || "No bio yet."}
             </p>
           </div>
         </div>
@@ -62,7 +70,7 @@ function Profile() {
         </div>
 
         {/* SCROLLABLE CONTAINER */}
-        <div className="flex-1 overflow-y-auto px-6 pb-4">
+        <div className="flex-1 overflow-y-auto px-6 pb-4 scrollbar-hide">
           {activeTap === "posts" && <UserPost />}
           {activeTap === "stories" && <UserStories />}
         </div>
@@ -70,6 +78,5 @@ function Profile() {
     </Layout>
   );
 }
-
 
 export default Profile;
