@@ -3,7 +3,7 @@ import { useModal } from "./useModel";
 import Message from "./Message";
 import CreatePost from "./CreatePost";
 import CreateStory from "./CreateStory";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./SupabaseClient";
 import { useEffect, useState } from "react";
 import { defaultProfileUrl } from "./defaultImage";
 import dayjs from "dayjs";

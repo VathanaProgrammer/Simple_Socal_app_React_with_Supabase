@@ -1,5 +1,5 @@
 import { useUser } from "./useUser";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./SupabaseClient";
 import { useEffect, useState, useCallback } from "react";
 import dayjs from "dayjs";
 import { defaultProfileUrl } from "./defaultImage";

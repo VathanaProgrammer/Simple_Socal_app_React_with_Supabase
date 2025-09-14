@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./SupabaseClient";
 
 function CreateStory({ onClose }) {
   const [preview, setPreview] = useState(null);

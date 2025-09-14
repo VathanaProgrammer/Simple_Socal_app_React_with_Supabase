@@ -3,7 +3,7 @@ import { useModal } from "./useModel";
 import CreatePost from "./CreatePost";
 import CreateStory from "./CreateStory";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./SupabaseClient";
 import { useUser } from "./useUser";
 import { defaultProfileUrl } from "./defaultImage";
 

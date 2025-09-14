@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./SupabaseClient";
 import { v4 as uuidv4 } from "uuid";
 
 function CreatePost({ onClose }) {

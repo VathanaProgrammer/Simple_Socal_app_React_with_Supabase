@@ -1,6 +1,7 @@
 // UserContext.jsx
 import { createContext, useState, useEffect } from "react";
-import { supabase } from "./supabaseClient";
+import { supabase } from "./SupabaseClient";
+
 
 const UserContext = createContext();
 
