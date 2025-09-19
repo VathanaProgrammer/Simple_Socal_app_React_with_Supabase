@@ -1,11 +1,12 @@
 import { supabase } from "./SupabaseClient";
 
 export async function signUpWithEmail(email, password, username) {
+  // 1. Sign up
   const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
-      data: { username }, // store username inside user metadata
+      data: { username }, // store username in user metadata
     },
   });
 
@@ -14,18 +15,24 @@ export async function signUpWithEmail(email, password, username) {
     return { success: false, error: error.message };
   }
 
-  // also save username in a separate table if needed
-  if (data?.user) await saveUserProfile(data.user.id, username);
+  // 2. Save profile in separate table if needed
+  if (data?.user) {
+    const { error: profileError } = await supabase
+      .from("profiles")
+      .insert([{ id: data.user.id, username }]);
 
-  // 2. Immediately sign in
-  const { data: loginData, error: loginError } =
-    await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-  if (loginError) throw loginError;
+    if (profileError) {
+      console.error("Profile insert error:", profileError.message);
+      return { success: false, error: profileError.message };
+    }
+  }
 
-  return { success: true, data: loginData };
+  // 3. DO NOT sign in automatically. Just return success
+  return {
+    success: true,
+    message:
+      "Sign up successful! Please check your email to confirm your account.",
+  };
 }
 
 export async function signUpWithGoogle() {

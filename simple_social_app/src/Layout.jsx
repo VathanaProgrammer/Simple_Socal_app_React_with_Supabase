@@ -20,7 +20,7 @@ function Layout({ children }) {
   };
 
   return (
-    <div className="w-full max-w-[1450px] mx-auto">
+    <div className="w-full max-w-[1450px] min-h-screen mx-auto">
       {/* Header */}
       <header className="flex justify-between pt-2 items-center">
         <div className="flex justify-start items-center gap-4">
@@ -79,13 +79,13 @@ function Layout({ children }) {
             <>
               <button
                 onClick={() => navigate("/sign-in")}
-                className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
+                className="px-4 py-2 rounded-lg bg-gray-800 text-white hover:bg-gray-500 transition"
               >
                 Sign In
               </button>
               <button
                 onClick={() => navigate("/sign-up")}
-                className="px-4 py-2 rounded-lg bg-green-500 text-white hover:bg-green-600 transition"
+                className="px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition"
               >
                 Sign Up
               </button>
@@ -106,7 +106,7 @@ function Layout({ children }) {
         </div>
       )}
 
-      <main className="mt-4">{children}</main>
+      <main className="mt-4 flex-1 flex h-full overflow-hidden">{children}</main>
     </div>
   );
 }

@@ -19,11 +19,8 @@ export default function Home() {
 
   const { user } = useUser();
 
-  // Fetch stories with user info manually
+  // Fetch stories
   const fetchStories = async () => {
-    if (!user) return;
-
-    // Fetch stories
     const { data: storiesData, error: storiesError } = await supabase
       .from("stories")
       .select("*")
@@ -34,10 +31,8 @@ export default function Home() {
       return;
     }
 
-    // Extract unique user_ids
     const userIds = [...new Set(storiesData.map((s) => s.user_id))];
 
-    // Fetch user info
     const { data: usersData, error: usersError } = await supabase
       .from("profiles")
       .select("id, username, avatar_url")
@@ -48,7 +43,6 @@ export default function Home() {
       return;
     }
 
-    // Combine stories with user info
     const combined = storiesData.map((s) => ({
       ...s,
       user: usersData.find((u) => u.id === s.user_id) || {
@@ -60,6 +54,7 @@ export default function Home() {
     setStories(combined);
   };
 
+  // Fetch posts
   const fetchPosts = async () => {
     const { data, error } = await supabase
       .from("posts")
@@ -88,12 +83,21 @@ export default function Home() {
     <Layout>
       {showPost && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <CreatePost onClose={() => setShowPost(false)} />
+          <CreatePost
+            onClose={() => setShowPost(false)}
+            onPostSuccess={(newPost) => setPosts([newPost, ...posts])}
+          />
         </div>
       )}
+
       {showCreateStory && (
         <div className="fixed inset-0 bg-black/50 flex justify-center items-center z-50">
-          <CreateStory onClose={() => setShowCreateStory(false)} />
+          <CreateStory
+            onClose={() => setShowCreateStory(false)}
+            onStoriesSuccess={(newStories) =>
+              setStories([newStories, ...stories])
+            }
+          />
         </div>
       )}
 
@@ -105,9 +109,12 @@ export default function Home() {
         />
       )}
 
-      <section className="flex w-full justify-between gap-4 h-[calc(100vh-100px)]">
-        <section className="w-1/2 overflow-y-auto scrollbar-hide">
-          <div className="w-full flex gap-3 overflow-x-auto flex-nowrap scrollbar-hide py-2">
+      {/* Main Flex Container */}
+      <section className="flex w-full gap-4 flex-1 min-h-0">
+        {/* Left Column */}
+        <section className="w-1/2 flex flex-col min-h-0">
+          {/* Stories */}
+          <div className="w-full flex gap-3 overflow-x-auto flex-nowrap py-2">
             {/* Create Story */}
             <div className="group h-[154px] w-[100px] border border-gray-300 rounded-[10px] flex-shrink-0 flex flex-col justify-end p-2 bg-[#D2EEF5] relative overflow-hidden cursor-pointer">
               <img
@@ -127,7 +134,6 @@ export default function Home() {
             </div>
 
             {/* User Stories */}
-            {/* User Stories */}
             {Object.entries(groupedStories).length === 0 ? (
               <p className="text-sm text-gray-500">No stories yet</p>
             ) : (
@@ -137,12 +143,12 @@ export default function Home() {
                   className="h-[154px] w-[100px] relative cursor-pointer flex-shrink-0 rounded overflow-hidden border border-gray-300"
                   onClick={() =>
                     setSelectedStory({
-                      stories: userStories.stories, // array of stories
+                      stories: userStories.stories,
                       user: userStories.user || {
                         username: "Someone",
                         avatar_url: defaultProfileUrl,
                       },
-                      index: 0, // start from first story
+                      index: 0,
                     })
                   }
                 >
@@ -167,7 +173,7 @@ export default function Home() {
           </div>
 
           {/* Posts */}
-          <div>
+          <div className="overflow-y-auto pr-2 h-[650px] scrollbar-hide">
             {posts.map((p) => (
               <div
                 key={p.id}
@@ -178,35 +184,39 @@ export default function Home() {
                     <div className="flex gap-2 mb-2">
                       <img
                         className="h-[45px] w-[45px] rounded-full"
-                        src={p.user.avatar_url || defaultProfileUrl}
+                        src={p?.user?.avatar_url || defaultProfileUrl}
                         alt=""
                       />
                       <div className="flex flex-col">
                         <h2 className="text-[14px] font-medium text-[#373737]">
-                          {p.user.username || "Unknown user"}
+                          {p?.user?.username || "Unknown user"}
                         </h2>
                         <p className="text-[10px] font-normal text-[#575757]">
-                          {dayjs(p.created_at).format("YYYY-MM-DD HH:mm A")}
+                          {dayjs(p?.created_at).format("YYYY-MM-DD HH:mm A")}
                         </p>
                       </div>
                     </div>
                     <p className="text-[13px] font-medium text-[#575757]">
-                      {p.content}
+                      {p?.content}
                     </p>
                   </div>
                 </div>
                 <div className="w-1/2 h-full p-2">
                   <img
                     className="w-full h-full object-cover rounded-[10px]"
-                    src={p.image_url}
-                    alt={p.image_url}
+                    src={p?.image_url}
+                    alt={p?.image_url}
                   />
                 </div>
               </div>
             ))}
           </div>
         </section>
-        <Message />
+
+        {/* Right Column (Chat) */}
+        <div className="w-1/2 flex flex-col flex-1 min-h-0">
+          <Message />
+        </div>
       </section>
     </Layout>
   );
