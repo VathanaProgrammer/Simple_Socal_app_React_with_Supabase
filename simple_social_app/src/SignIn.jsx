@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "./SupabaseClient";
 import { toast } from "react-hot-toast";
+import image from "./assets/image/e701e49077bfe48c6c335559438ab28b.jpg";
 
 // Modal for resending confirmation email
 function ResendConfirmationModal({ email, password, onClose }) {
@@ -124,13 +125,13 @@ function SignIn() {
         />
       )}
       <div className="min-h-screen w-full flex justify-center items-center mx-auto bg-[#D2EEF5]">
-        <div className="w-[80%] h-[700px] flex flex-col justify-between rounded-[20px] border-white border-2 bg-transparent p-2">
+        <div className="lg:w-[80%] lg:h-[700px] md:w-[90%] md:h-[600px] h-full min-h-[500px] flex flex-col md:justify-between rounded-[20px] border-white border-2 bg-transparent p-2">
           <form
             onSubmit={handleLogin}
-            className="bg-white h-full rounded-[20px] flex flex-col p-5 justify-start"
+            className="bg-white flex-1 h-full rounded-[20px] flex flex-col p-3 lg:p-4 xl:p-5 justify-start"
           >
             <div className="w-full h-full flex justify-center items-center">
-              <div className="w-1/2 h-full">
+              <div className="md:w-1/2 w-full h-full">
                 <header className="flex justify-start gap-4">
                   <iconify-icon
                     icon="dinkie-icons:cat-face"
@@ -140,7 +141,7 @@ function SignIn() {
                     style={{ color: "#4d4d4d" }}
                   ></iconify-icon>
                 </header>
-                <div className="w-full flex flex-col justify-center items-center mt-15 px-20">
+                <div className="w-full flex flex-col justify-center items-center mt-6 md:mt-15 p-3 md:px-5 lg:px-15 xl:px-20">
                   <h1 className="text-[36px] w-full font-medium text-start text-[#2C2C2C]">
                     Log in to your Account
                   </h1>
@@ -202,7 +203,9 @@ function SignIn() {
                 </div>
               </div>
 
-              <div className="w-1/2 h-full bg-[#4153EF] rounded-[20px]"></div>
+              <div className="h-full hidden md:block md:w-1/2 bg-[#4153EF] rounded-[20px]">
+              <img src={image} className="w-full h-full object-cover rounded-[20px]" alt="" />
+              </div>
             </div>
           </form>
         </div>
