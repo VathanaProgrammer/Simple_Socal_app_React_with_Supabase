@@ -68,7 +68,7 @@ function Layout({ children }) {
             icon="bi:file-earmark-post"
             width="38"
             height="38"
-            onClick={() => setShowPost(true)}
+            onClick={() => navigate("/create-post")}
             className="hidden lg:inline"
             style={{ color: "#4d4d4d" }}
           ></iconify-icon>
@@ -140,7 +140,7 @@ function Layout({ children }) {
                 icon="bi:file-earmark-post"
                 width="32"
                 height="32"
-                onClick={() => setShowPost(true)}
+                onClick={() => navigate("/create-post")}
                 style={{ color: "#4d4d4d" }}
               ></iconify-icon>
             </div>

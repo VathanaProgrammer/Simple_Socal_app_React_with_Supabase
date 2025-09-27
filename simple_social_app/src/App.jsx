@@ -8,6 +8,7 @@ import CreatePost from "./CreatePost.jsx";
 import Profile from "./Profile.jsx";
 import { Toaster } from "react-hot-toast";
 import MessageRes from "./MessageRes.jsx";
+import CreateStory from "./CreateStory.jsx";
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
           <Route path="/create-post" element={<CreatePost />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/messages" element={<MessageRes />} />
+          <Route path="*" element={<div>404 Not Found</div>} />
+          <Route path="/create-post" element={<CreatePost />} />
+          <Route path="/create-story" element={<CreateStory />} />
         </Routes>
       </ModalProvider>
     </Router>
