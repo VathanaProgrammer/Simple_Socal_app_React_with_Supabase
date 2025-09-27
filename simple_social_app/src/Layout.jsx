@@ -2,13 +2,14 @@
 import { useModal } from "./useModel";
 import CreatePost from "./CreatePost";
 import CreateStory from "./CreateStory";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { supabase } from "./SupabaseClient";
 import { useUser } from "./useUser";
 import { defaultProfileUrl } from "./defaultImage";
 
 function Layout({ children }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { showPost, setShowPost, showCreateStory, setShowCreateStory } =
     useModal();
 
@@ -19,6 +20,8 @@ function Layout({ children }) {
     navigate("/sign-in"); // redirect to login page after logout
   };
 
+  // Check if current page is chat
+  const isChatPage = location.pathname === "/messages"; // adjust if your chat route is different
   return (
     <div className="w-full max-w-[1450px] min-h-screen mx-auto p-1">
       {/* Header */}
@@ -54,6 +57,7 @@ function Layout({ children }) {
         {/* Right: User Info */}
         <div className="flex justify-end items-center gap-4">
           <iconify-icon
+            onClick={() => navigate("/messages")}
             icon="ri:chat-3-fill"
             width="48"
             height="48"
@@ -105,40 +109,43 @@ function Layout({ children }) {
           )}
         </div>
 
-        {/* Bottom Bar → Only visible on small screens */}
-        <div className="md:hidden fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-between items-center px-4 py-2">
-          <div className="relative w-[70%] h-[45px] bg-[#E3E3E3] rounded-[10px] flex items-center">
-            <span className="absolute left-0 inset-y-0 flex items-center ps-3">
+        {/* Bottom Bar → Only visible on small screens AND NOT in chat */}
+        {!isChatPage && (
+          <div className="md:hidden fixed bottom-0 left-0 w-full bg-white shadow-md flex justify-between items-center px-4 py-2">
+            <div className="relative w-[70%] h-[45px] bg-[#E3E3E3] rounded-[10px] flex items-center">
+              <span className="absolute left-0 inset-y-0 flex items-center ps-3">
+                <iconify-icon
+                  icon="quill:search"
+                  width="24"
+                  height="24"
+                  style={{ color: "#4d4d4d" }}
+                ></iconify-icon>
+              </span>
+              <input
+                type="text"
+                className="w-full pl-10 text-[16px] font-medium focus:outline-none"
+                placeholder="Search"
+              />
+            </div>
+            <div className="flex gap-3">
               <iconify-icon
-                icon="quill:search"
-                width="24"
-                height="24"
+                onClick={() => navigate("/messages")}
+                icon="ri:chat-3-fill"
+                width="32"
+                height="32"
+                className="cursor-pointer"
                 style={{ color: "#4d4d4d" }}
               ></iconify-icon>
-            </span>
-            <input
-              type="text"
-              className="w-full pl-10 text-[16px] font-medium focus:outline-none"
-              placeholder="Search"
-            />
+              <iconify-icon
+                icon="bi:file-earmark-post"
+                width="32"
+                height="32"
+                onClick={() => setShowPost(true)}
+                style={{ color: "#4d4d4d" }}
+              ></iconify-icon>
+            </div>
           </div>
-          <div className="flex gap-3">
-            <iconify-icon
-              icon="ri:chat-3-fill"
-              width="32"
-              height="32"
-              className="cursor-pointer"
-              style={{ color: "#4d4d4d" }}
-            ></iconify-icon>
-            <iconify-icon
-              icon="bi:file-earmark-post"
-              width="32"
-              height="32"
-              onClick={() => setShowPost(true)}
-              style={{ color: "#4d4d4d" }}
-            ></iconify-icon>
-          </div>
-        </div>
+        )}
       </header>
 
       {/* Global Modals */}
