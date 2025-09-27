@@ -282,7 +282,7 @@ const filteredUsers = users.filter(
               <input
                 type="text"
                 placeholder="Write a message..."
-                className="flex-1 px-4 py-2 focus:outline-none text-[14px]"
+                className="flex-1 px-4 py-2 focus:outline-none text-[16px]"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
