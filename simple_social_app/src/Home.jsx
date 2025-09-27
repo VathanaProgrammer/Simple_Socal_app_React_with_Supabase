@@ -112,7 +112,7 @@ export default function Home() {
       {/* Main Flex Container */}
       <section className="flex w-full gap-4 flex-1 min-h-0">
         {/* Left Column */}
-        <section className="w-1/2 flex flex-col min-h-0">
+        <section className="md:w-1/2 flex flex-col min-h-0 w-full">
           {/* Stories */}
           <div className="w-full flex gap-3 overflow-x-auto flex-nowrap py-2">
             {/* Create Story */}
@@ -172,23 +172,23 @@ export default function Home() {
             )}
           </div>
 
-          {/* Posts */}
-          <div className="overflow-y-auto pr-2 h-[650px] scrollbar-hide">
+          <div className="overflow-y-auto pr-2 max-h-[650px] scrollbar-hide">
             {posts.map((p) => (
               <div
                 key={p.id}
-                className="w-full h-[260px] rounded-[10px] flex flex-col md:flex-row bg-white shadow-md overflow-hidden cursor-pointer mb-4"
+                className="w-full rounded-[10px] flex flex-col md:flex-row bg-white shadow-md overflow-hidden cursor-pointer mb-4"
               >
-                <div className="w-1/2 flex flex-col justify-between p-3">
+                {/* Text Section */}
+                <div className="w-full md:w-1/2 flex flex-col justify-between p-3">
                   <div>
                     <div className="flex gap-2 mb-2">
                       <img
-                        className="h-[45px] w-[45px] rounded-full"
+                        className="h-11 w-11 rounded-full object-cover"
                         src={p?.user?.avatar_url || defaultProfileUrl}
                         alt=""
                       />
                       <div className="flex flex-col">
-                        <h2 className="text-[14px] font-medium text-[#373737]">
+                        <h2 className="text-sm font-medium text-[#373737]">
                           {p?.user?.username || "Unknown user"}
                         </h2>
                         <p className="text-[10px] font-normal text-[#575757]">
@@ -196,14 +196,38 @@ export default function Home() {
                         </p>
                       </div>
                     </div>
-                    <p className="text-[13px] font-medium text-[#575757]">
+                    <p className="text-sm font-medium text-[#575757]">
                       {p?.content}
                     </p>
                   </div>
+
+                  {/* bottom: icons */}
+                  <div className="flex justify-start gap-2 mt-3">
+                    <button className="flex items-center gap-1 ">
+                      <iconify-icon
+                        icon="icon-park-outline:like"
+                        width="18"
+                        height="18"
+                        style={{ color: "#353535" }}
+                      />
+                      <span className="text-[#575757] font-medium">12</span>
+                    </button>
+                    <button className="flex items-center gap-1">
+                      <iconify-icon
+                        icon="iconamoon:comment"
+                        width="18"
+                        height="18"
+                        style={{ color: "#353535" }}
+                      />
+                      <span className="text-[#575757] font-medium">5</span>
+                    </button>
+                  </div>
                 </div>
-                <div className="w-1/2 h-full p-2">
+
+                {/* Image Section */}
+                <div className="w-full md:w-1/2 p-2">
                   <img
-                    className="w-full h-full object-cover rounded-[10px]"
+                    className="w-full aspect-[4/3] md:aspect-auto md:h-full object-cover rounded-[10px]"
                     src={p?.image_url}
                     alt={p?.image_url}
                   />
@@ -214,7 +238,7 @@ export default function Home() {
         </section>
 
         {/* Right Column (Chat) */}
-        <div className="w-1/2 flex flex-col flex-1 min-h-0">
+        <div className="hidden md:w-1/2 md:flex flex-col flex-1 min-h-0">
           <Message />
         </div>
       </section>
