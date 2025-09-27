@@ -158,6 +158,27 @@ export default function Home() {
                       {p?.content}
                     </p>
                   </div>
+                  {/* bottom: icons */}
+                  <div className="flex justify-start gap-2 mt-3">
+                    <button className="flex items-center gap-1 ">
+                      <iconify-icon
+                        icon="icon-park-outline:like"
+                        width="18"
+                        height="18"
+                        style={{ color: "#353535" }}
+                      />
+                      <span className="text-[#575757] font-medium">12</span>
+                    </button>
+                    <button className="flex items-center gap-1">
+                      <iconify-icon
+                        icon="iconamoon:comment"
+                        width="18"
+                        height="18"
+                        style={{ color: "#353535" }}
+                      />
+                      <span className="text-[#575757] font-medium">5</span>
+                    </button>
+                  </div>
                 </div>
 
                 {/* Image Section */}

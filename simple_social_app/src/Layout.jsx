@@ -57,14 +57,6 @@ function Layout({ children }) {
         {/* Right: User Info */}
         <div className="flex justify-end items-center gap-4">
           <iconify-icon
-            onClick={() => navigate("/messages")}
-            icon="ri:chat-3-fill"
-            width="48"
-            height="48"
-            className="cursor-pointer hidden lg:inline"
-            style={{ color: "#4d4d4d" }}
-          ></iconify-icon>
-          <iconify-icon
             icon="bi:file-earmark-post"
             width="38"
             height="38"

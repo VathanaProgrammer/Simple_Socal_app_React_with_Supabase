@@ -168,7 +168,7 @@ const filteredUsers = users.filter(
           <div className="relative w-full h-[50px] bg-[#E8E8E8] rounded-[10px] flex items-center">
             <input
               type="text"
-              className="focus:outline-none px-4 w-full text-[13px] font-medium bg-transparent"
+              className="focus:outline-none px-4 w-full text-[16px] font-medium bg-transparent"
               placeholder="Search who you want to talk to here..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}

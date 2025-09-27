@@ -1,14 +1,14 @@
-import { useModal } from "./useModel";
 import { supabase } from "./SupabaseClient";
 import { useState, useEffect } from "react";
 import { useUser } from "./useUser";
 import StoryViewer from "./StoryViewer";
+import { useNavigate } from "react-router-dom";
 
 function UserStories() {
-  const { setShowCreateStory } = useModal();
   const [stories, setStories] = useState([]);
   const [selectedStory, setSelectedStory] = useState(null);
   const { user } = useUser();
+  const navigate = useNavigate();
 
   const fetchStories = async () => {
     if (!user) return;
@@ -30,7 +30,7 @@ function UserStories() {
       <div className="w-full flex gap-3 overflow-x-auto flex-wrap scrollbar-hide py-2">
         {/* Create Story */}
         <div
-          onClick={() => setShowCreateStory(true)}
+          onClick={() => navigate("/create-story")}
           className="group h-[154px] w-[100px] border border-gray-300 rounded-[10px] flex-shrink-0 flex flex-col justify-center items-center p-2 bg-[#D2EEF5] relative overflow-hidden cursor-pointer"
         >
           <button className="text-white text-[50px] font-normal px-4 py-1 rounded-[10px] mb-1">
